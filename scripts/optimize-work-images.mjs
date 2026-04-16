@@ -11,12 +11,13 @@ async function ensureDir(dir) {
 
 async function listFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true })
+  const allowedExtensions = new Set([".webp", ".jpg", ".jpeg", ".png", ".heic"])
   return entries
-    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".webp"))
+    .filter((entry) => entry.isFile() && allowedExtensions.has(path.extname(entry.name).toLowerCase()))
     .map((entry) => entry.name)
     .sort((a, b) => {
-      const na = Number.parseInt(a, 10)
-      const nb = Number.parseInt(b, 10)
+      const na = Number.parseInt(path.parse(a).name, 10)
+      const nb = Number.parseInt(path.parse(b).name, 10)
       if (Number.isNaN(na) || Number.isNaN(nb)) return a.localeCompare(b)
       return na - nb
     })
