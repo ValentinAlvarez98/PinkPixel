@@ -1,7 +1,7 @@
 ﻿import Image from "next/image"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import type { WorkProject } from "@/lib/landing-data"
 
 type WorkLightboxProps = {
@@ -27,14 +27,31 @@ export function WorkLightbox({
 
   return (
     <Dialog open={open} onOpenChange={(state) => !state && onClose()}>
-      <DialogContent className="h-[96vh] w-[98vw] max-w-[1700px] overflow-hidden border-white/20 bg-neutral-950 p-0 sm:max-w-[98vw]">
+      <DialogContent
+        showCloseButton={false}
+        className="h-[96vh] w-[98vw] max-w-[1700px] overflow-hidden border-white/20 bg-neutral-950 p-0 sm:max-w-[98vw]"
+      >
         {activeProject && activeImage && (
           <div className="grid h-full grid-rows-[auto_1fr_auto] md:grid-cols-[120px_1fr] md:grid-rows-[auto_1fr]">
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 md:col-span-2">
               <DialogTitle className="text-sm font-semibold text-white md:text-base">{activeProject.title}</DialogTitle>
-              <p className="text-xs text-white/75">
-                {activeIndex + 1} / {activeProject.images.length}
-              </p>
+
+              <div className="flex items-center gap-3">
+                <p className="text-xs text-white/75">
+                  {activeIndex + 1} / {activeProject.images.length}
+                </p>
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="outline"
+                    className="h-8 w-8 border-white/35 bg-black/55 text-white hover:bg-black/80"
+                    aria-label="Cerrar visor"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </DialogClose>
+              </div>
             </div>
 
             <aside className="hidden border-r border-white/10 bg-black/35 p-3 md:flex md:flex-col md:gap-2 md:overflow-y-auto">
