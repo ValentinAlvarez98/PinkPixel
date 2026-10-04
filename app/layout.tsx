@@ -1,43 +1,64 @@
-﻿import type React from "react"
-import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
+import type { Metadata, Viewport } from "next"
+
+import "@fontsource-variable/nunito-sans/standard.css"
+import "@fontsource/shrikhand/400.css"
 import "./globals.css"
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-})
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-})
+const siteUrl = "https://pinkpixel.uy"
 
 export const metadata: Metadata = {
-  title: "Pink Pixel | Decoracion para fiestas",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Pink Pixel | Papelería creativa y fiestas personalizadas",
+    template: "%s | Pink Pixel",
+  },
   description:
-    "Landing oficial de Pink Pixel: productos personalizados para fiestas, galeria de trabajos realizados y contacto por WhatsApp, Instagram o TikTok.",
-  metadataBase: new URL("https://pinkpixel.uy"),
+    "Toppers, souvenirs, juegos y papelería creativa personalizados para fiestas en Uruguay.",
+  keywords: [
+    "papelería personalizada Uruguay",
+    "toppers personalizados",
+    "souvenirs para fiestas",
+    "decoración cumpleaños Uruguay",
+    "Pink Pixel",
+  ],
+  authors: [{ name: "Pink Pixel" }],
+  creator: "Pink Pixel",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Pink Pixel",
-    description: "Decoracion para fiestas y productos personalizados.",
     type: "website",
     locale: "es_UY",
+    url: siteUrl,
+    siteName: "Pink Pixel",
+    title: "Pink Pixel | Detalles para celebrar a tu manera",
+    description: "Papelería creativa y productos personalizados para fiestas en Uruguay.",
+    images: [
+      {
+        url: "/assets/trabajos/topper-safari/cover.webp",
+        width: 720,
+        height: 960,
+        alt: "Trabajo personalizado de Pink Pixel",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pink Pixel | Detalles para celebrar a tu manera",
+    description: "Papelería creativa y productos personalizados para fiestas en Uruguay.",
+    images: ["/assets/trabajos/topper-safari/cover.webp"],
+  },
+  robots: { index: true, follow: true },
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#eb6f92",
+}
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`} suppressHydrationWarning>
-        {children}
-        <Analytics />
-      </body>
+    <html lang="es-UY">
+      <body>{children}</body>
     </html>
   )
 }
