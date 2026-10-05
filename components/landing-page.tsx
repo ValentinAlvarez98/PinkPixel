@@ -48,6 +48,18 @@ function Burst({ className = "" }: { className?: string }) {
       return <svg className={className} viewBox="0 0 100 100" aria-hidden="true"><path d="M50 3 58 34 80 11 66 40 97 32 69 48 98 59 66 57 84 84 59 64 55 98 48 66 29 94 39 63 7 76 35 56 2 48 35 47 9 23 40 39Z" /></svg>
 }
 
+function FrameClipDefinition() {
+      return (
+            <svg className="frame-clip-definition" aria-hidden="true" focusable="false">
+                  <defs>
+                        <clipPath id="pinkpixel-organic-frame" clipPathUnits="objectBoundingBox">
+                              <path d="M .08 .025 C .13 0 .18 .055 .24 .025 C .30 0 .35 .055 .41 .025 C .47 0 .52 .055 .58 .025 C .64 0 .69 .055 .75 .025 C .81 0 .87 .05 .92 .025 C .97 .05 .95 .11 .98 .16 C 1 .22 .95 .27 .98 .33 C 1 .39 .95 .44 .98 .50 C 1 .56 .95 .61 .98 .67 C 1 .73 .95 .78 .98 .84 C .96 .90 1 .95 .92 .975 C .87 1 .81 .95 .75 .975 C .69 1 .64 .945 .58 .975 C .52 1 .47 .945 .41 .975 C .35 1 .30 .945 .24 .975 C .18 1 .13 .95 .08 .975 C .03 .95 .05 .90 .02 .84 C 0 .78 .05 .73 .02 .67 C 0 .61 .05 .56 .02 .50 C 0 .44 .05 .39 .02 .33 C 0 .27 .05 .22 .02 .16 C .04 .10 .03 .05 .08 .025 Z" />
+                        </clipPath>
+                  </defs>
+            </svg>
+      )
+}
+
 export function LandingPage({ products }: { products: Product[] }) {
       const [menuOpen, setMenuOpen] = useState(false)
       const [heroIndex, setHeroIndex] = useState(0)
@@ -91,6 +103,7 @@ export function LandingPage({ products }: { products: Product[] }) {
 
       return (
             <>
+                  <FrameClipDefinition />
                   <a className="skip-link" href="#contenido">Saltar al contenido</a>
 
                   <div className="ticker" aria-hidden="true"><div><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b></div></div>
@@ -111,7 +124,7 @@ export function LandingPage({ products }: { products: Product[] }) {
                               <div className="hero-doodle hero-doodle-one" aria-hidden="true">✿</div><div className="hero-doodle hero-doodle-two" aria-hidden="true">✦</div>
                               <div className="hero-copy">
                                     <p className="kicker"><span>Pink Pixel</span> · Uruguay</p>
-                                    <h1 id="hero-title">Tu fiesta.<br /><em>Más tuya</em> que nunca.</h1>
+                                    <h1 id="hero-title">Tu fiesta.<br /><em>Más tuya</em><br />que nunca.</h1>
                                     <p className="hero-intro">Toppers, juegos y souvenirs personalizados para convertir una idea en ese detalle del que todos hablan.</p>
                                     <div className="hero-actions">
                                           <a className="button button-ink" href={whatsappUrl("Hola Pink Pixel, quiero contarte una idea para mi fiesta.")} target="_blank" rel="noopener noreferrer" onClick={() => track("product_whatsapp", "hero")}>Quiero hacer un pedido <span aria-hidden>↗</span></a>
@@ -124,7 +137,7 @@ export function LandingPage({ products }: { products: Product[] }) {
                                           {heroSlides.map((slide, index) => {
                                                 const offset = (index - heroIndex + heroSlides.length) % heroSlides.length
                                                 const position = offset === 0 ? "is-active" : offset === 1 ? "is-next" : "is-previous"
-                                                return <figure className={`hero-photo ${position}`} key={slide.src} aria-hidden={index !== heroIndex}><div className="hero-photo-image"><Image src={slide.src} alt={index === heroIndex ? slide.alt : ""} fill sizes="(max-width: 850px) 82vw, 42vw" priority={index === 0} /></div><figcaption><strong>{slide.title}</strong><span>{slide.note}</span></figcaption></figure>
+                                                return <figure className={`hero-photo ${position}`} key={slide.src} aria-hidden={index !== heroIndex}><div className="hero-photo-image organic-frame"><Image src={slide.src} alt={index === heroIndex ? slide.alt : ""} fill sizes="(max-width: 850px) 82vw, 42vw" priority={index === 0} /></div><figcaption><strong>{slide.title}</strong><span>{slide.note}</span></figcaption></figure>
                                           })}
                                           <div className="hero-sticker" aria-hidden="true"><span>100%</span> personalizado</div><Burst className="hero-burst" />
                                     </div>
@@ -143,17 +156,17 @@ export function LandingPage({ products }: { products: Product[] }) {
                               <div className="gallery-pattern" aria-hidden="true" />
                               <header className="section-heading gallery-heading"><div><p className="kicker kicker-light">Nuestro trabajo</p><h2 id="gallery-title">Un poquito de<br /><em>lo que hacemos.</em></h2></div><p className="gallery-intro">Siete ideas distintas, hechas para siete momentos distintos. Tocá una para verla de cerca.</p></header>
                               <div className="gallery-filters" role="group" aria-label="Filtrar trabajos">{[["todos", "Todo"], ["toppers", "Toppers"], ["juegos", "Juegos"], ["souvenirs", "Souvenirs"]].map(([value, label]) => <button className={filter === value ? "is-active" : ""} type="button" key={value} onClick={() => setFilter(value)}>{label}</button>)}</div>
-                              <div className="gallery-grid" aria-live="polite">{visibleProjects.map((project, index) => <button className={`gallery-card card-${(index % 6) + 1}`} type="button" key={project.id} onClick={() => { setViewer({ project, image: 1 }); track("gallery_open", project.id) }} aria-label={`Abrir ${project.title}, ${project.count} fotos`}><span className="gallery-image"><Image src={`/assets/trabajos/${project.id}/cover.webp`} alt={project.title} fill sizes="(max-width: 620px) 88vw, 34vw" /></span><span className="gallery-card-copy"><small>{project.kind} · {project.count} fotos</small><strong>{project.title}</strong><span>{project.summary}</span></span></button>)}</div>
+                              <div className="gallery-grid" aria-live="polite">{visibleProjects.map((project, index) => <button className={`gallery-card card-${(index % 6) + 1}`} type="button" key={project.id} onClick={() => { setViewer({ project, image: 1 }); track("gallery_open", project.id) }} aria-label={`Abrir ${project.title}, ${project.count} fotos`}><span className="gallery-image organic-frame"><Image src={`/assets/trabajos/${project.id}/cover.webp`} alt={project.title} fill sizes="(max-width: 620px) 88vw, 34vw" /></span><span className="gallery-card-copy"><small>{project.kind} · {project.count} fotos</small><strong>{project.title}</strong><span>{project.summary}</span></span></button>)}</div>
                         </section>
 
                         <section className="products section" id="productos" aria-labelledby="products-title">
                               <header className="section-heading products-heading"><div><p className="kicker">El catálogo</p><h2 id="products-title">Elegí por dónde<br /><em>empezar.</em></h2></div><p>Todo se adapta a la temática, la cantidad y la fecha de tu evento. Elegí una opción y escribinos: la cotización se arma para vos.</p></header>
-                              <div className="product-list">{products.map((product, index) => <article className="product-card" key={product.id}><a className="product-image" href={whatsappUrl(`Hola Pink Pixel, me gustaría consultar por ${product.name.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer" onClick={() => track("product_whatsapp", product.slug)} aria-label={`Consultar por ${product.name}`}><Image src={product.imageSrc} alt={product.name} fill sizes="(max-width: 620px) 78vw, 23vw" /><span className="product-number">0{index + 1}</span></a><div className="product-copy"><small>{product.category}</small><h3>{product.name}</h3><p>{product.description}</p><a href={whatsappUrl(`Hola Pink Pixel, me gustaría consultar por ${product.name.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer" onClick={() => track("product_whatsapp", product.slug)}>Consultar por WhatsApp <span aria-hidden>↗</span></a></div></article>)}</div>
+                              <div className="product-list">{products.map((product, index) => <article className="product-card" key={product.id}><a className="product-image" href={whatsappUrl(`Hola Pink Pixel, me gustaría consultar por ${product.name.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer" onClick={() => track("product_whatsapp", product.slug)} aria-label={`Consultar por ${product.name}`}><span className="product-image-media organic-frame"><Image src={product.imageSrc} alt={product.name} fill sizes="(max-width: 620px) 78vw, 23vw" /></span><span className="product-number">0{index + 1}</span></a><div className="product-copy"><small>{product.category}</small><h3>{product.name}</h3><p>{product.description}</p><a href={whatsappUrl(`Hola Pink Pixel, me gustaría consultar por ${product.name.toLowerCase()}.`)} target="_blank" rel="noopener noreferrer" onClick={() => track("product_whatsapp", product.slug)}>Consultar por WhatsApp <span aria-hidden>↗</span></a></div></article>)}</div>
                               <div className="custom-note"><span aria-hidden>✦</span><p><strong>¿Tenés otra cosa en mente?</strong> Buenísimo. También hacemos propuestas desde cero.</p><a href={whatsappUrl("Hola Pink Pixel, tengo una idea distinta y me gustaría contártela.")} target="_blank" rel="noopener noreferrer">Contame tu idea →</a></div>
                         </section>
 
                         <section className="about section" id="sobre-mi" aria-labelledby="about-title">
-                              <div className="about-collage"><div className="about-photo about-photo-main"><Image src="/assets/trabajos/topper-capibara/full-1.webp" alt="Detalle artesanal de un topper de capibara" fill sizes="(max-width: 850px) 78vw, 38vw" /></div><div className="about-photo about-photo-small"><Image src="/assets/trabajos/memoria-sirena/full-2.webp" alt="Juego de memoria de sirena hecho por Pink Pixel" fill sizes="36vw" /></div><div className="about-tape" aria-hidden="true" /><div className="about-flower" aria-hidden="true">✿</div></div>
+                              <div className="about-collage"><div className="about-photo about-photo-main organic-frame"><Image src="/assets/trabajos/topper-capibara/full-1.webp" alt="Detalle artesanal de un topper de capibara" fill sizes="(max-width: 850px) 78vw, 38vw" /></div><div className="about-photo about-photo-small organic-frame"><Image src="/assets/trabajos/memoria-sirena/full-2.webp" alt="Juego de memoria de sirena hecho por Pink Pixel" fill sizes="36vw" /></div><div className="about-flower" aria-hidden="true">✿</div></div>
                               <div className="about-copy"><p className="kicker">Detrás de Pink Pixel</p><h2 id="about-title">Hola, soy quien está <em>detrás de cada detalle.</em></h2><p className="about-lead">Pink Pixel es mi espacio para hacer algo que me encanta: escuchar una idea y verla tomar forma entre papeles, colores y capas.</p><p>Acá cada pedido pasa por las mismas manos, desde la primera charla hasta el armado final. Por eso puedo acompañarte de cerca, probar combinaciones y cuidar que todo llegue como lo imaginaste.</p><p className="about-signoff">Gracias por elegir algo hecho especialmente para vos.</p><a className="scribble-link" href="https://www.instagram.com/pinkpixel.uy" target="_blank" rel="noopener noreferrer">Nos vemos en Instagram <span aria-hidden>↗</span></a></div>
                         </section>
 

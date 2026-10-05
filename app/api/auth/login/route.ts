@@ -11,14 +11,14 @@ import { apiError, HttpError, readJsonBody, requireSameOrigin } from "@/lib/secu
 
 const loginSchema = z.object({
   username: z.string().trim().min(1).max(64),
-  password: z.string().min(1).max(256),
+  credential: z.string().length(44).regex(/^[A-Za-z0-9+/]{43}=$/),
 })
 
 export async function POST(request: Request) {
   try {
     requireSameOrigin(request)
     const input = loginSchema.parse(await readJsonBody(request, 1_024))
-    const session = await createAdminSession(input.username, input.password)
+    const session = await createAdminSession(input.username, input.credential)
     if (!session) throw new HttpError(401, "Usuario o contraseña incorrectos")
 
     const response = NextResponse.json({

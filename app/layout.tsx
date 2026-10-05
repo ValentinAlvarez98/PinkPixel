@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next"
 
-import "@fontsource-variable/nunito-sans/standard.css"
-import "@fontsource/shrikhand/400.css"
+import "@fontsource-variable/nunito"
+import "@fontsource/titan-one/400.css"
 import "./globals.css"
 
 const siteUrl = "https://pinkpixel.uy"
@@ -23,6 +23,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Pink Pixel" }],
   creator: "Pink Pixel",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png", sizes: "96x96" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

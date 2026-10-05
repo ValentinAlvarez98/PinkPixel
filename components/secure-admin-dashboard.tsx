@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from "react"
 
+import { deriveAdminCredential } from "@/lib/admin-credential"
 import type { Product } from "@/lib/types"
 
 type Metric = { event: string; target: string | null; total: number }
@@ -75,11 +76,13 @@ export function AdminDashboard() {
     setIsBusy(true)
     setMessage("")
     try {
+      const credential = await deriveAdminCredential(username, password)
+      setPassword("")
       const response = await fetch("/api/auth/login", {
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, credential }),
       })
       const body = await response.json().catch(() => ({ error: "No se pudo iniciar sesión" })) as
         SessionPayload & { error?: string }

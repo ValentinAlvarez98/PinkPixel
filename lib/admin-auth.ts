@@ -1,5 +1,6 @@
 import "server-only"
 
+import { ADMIN_CREDENTIAL_ALGORITHM, ADMIN_CREDENTIAL_ITERATIONS } from "@/lib/admin-credential"
 import { getDb } from "@/lib/db"
 import { HttpError, requireSameOrigin } from "@/lib/security"
 
@@ -8,8 +9,6 @@ export const SESSION_COOKIE_NAME = "pinkpixel_admin_session"
 export const CSRF_COOKIE_NAME = "pinkpixel_admin_csrf"
 export const SESSION_TTL_SECONDS = 8 * 60 * 60
 
-const PASSWORD_ALGORITHM = "pbkdf2-sha256"
-const PASSWORD_ITERATIONS = 600_000
 const MAX_FAILED_ATTEMPTS = 5
 const LOCK_SECONDS = 15 * 60
 const encoder = new TextEncoder()
@@ -65,21 +64,20 @@ async function sha256Base64(value: string): Promise<string> {
   return bytesToBase64(new Uint8Array(digest))
 }
 
-async function derivePasswordHash(
-  password: string,
-  saltBase64: string,
-  iterations: number,
-): Promise<Uint8Array> {
-  const key = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"])
+async function hashCredential(credential: Uint8Array, saltBase64: string): Promise<Uint8Array> {
   const saltBytes = base64ToBytes(saltBase64)
-  const salt = new ArrayBuffer(saltBytes.byteLength)
-  new Uint8Array(salt).set(saltBytes)
-  const result = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", hash: "SHA-256", salt, iterations },
-    key,
-    256,
+  const saltBuffer = new ArrayBuffer(saltBytes.byteLength)
+  new Uint8Array(saltBuffer).set(saltBytes)
+  const credentialBuffer = new ArrayBuffer(credential.byteLength)
+  new Uint8Array(credentialBuffer).set(credential)
+  const key = await crypto.subtle.importKey(
+    "raw",
+    saltBuffer,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
   )
-  return new Uint8Array(result)
+  return new Uint8Array(await crypto.subtle.sign("HMAC", key, credentialBuffer))
 }
 
 function timingSafeEqual(left: Uint8Array, right: Uint8Array): boolean {
@@ -100,23 +98,24 @@ function readCookie(request: Request, name: string): string | null {
   return null
 }
 
-async function verifyPassword(password: string, user: AdminUserRow | null): Promise<boolean> {
+async function verifyCredential(credentialBase64: string, user: AdminUserRow): Promise<boolean> {
   const hasUsableHash = Boolean(
-    user?.password_hash &&
+    user.password_hash &&
     user.password_salt &&
-    user.password_algorithm === PASSWORD_ALGORITHM &&
+    user.password_algorithm === ADMIN_CREDENTIAL_ALGORITHM &&
     user.password_iterations &&
-    user.password_iterations >= PASSWORD_ITERATIONS,
+    user.password_iterations >= ADMIN_CREDENTIAL_ITERATIONS,
   )
+  if (!hasUsableHash) return false
 
-  const salt = hasUsableHash ? user!.password_salt! : "AAAAAAAAAAAAAAAAAAAAAA=="
-  const iterations = hasUsableHash ? user!.password_iterations! : PASSWORD_ITERATIONS
-  const expected = hasUsableHash ? base64ToBytes(user!.password_hash!) : new Uint8Array(32)
-  const actual = await derivePasswordHash(password, salt, iterations)
-  return hasUsableHash && timingSafeEqual(actual, expected)
+  const credential = base64ToBytes(credentialBase64)
+  if (credential.byteLength !== 32) return false
+  const expected = base64ToBytes(user.password_hash!)
+  const actual = await hashCredential(credential, user.password_salt!)
+  return timingSafeEqual(actual, expected)
 }
 
-export async function createAdminSession(usernameInput: string, password: string): Promise<NewAdminSession | null> {
+export async function createAdminSession(usernameInput: string, credential: string): Promise<NewAdminSession | null> {
   const username = usernameInput.trim().toLowerCase()
   const db = getDb()
   const now = Math.floor(Date.now() / 1000)
@@ -134,7 +133,7 @@ export async function createAdminSession(usernameInput: string, password: string
   const isLocked = Boolean(user?.locked_until && user.locked_until > now)
   if (!user || user.active !== 1 || isLocked) return null
 
-  const passwordMatches = await verifyPassword(password, user)
+  const passwordMatches = await verifyCredential(credential, user)
 
   if (!passwordMatches) {
     const previousAttempts = user.locked_until && user.locked_until <= now ? 0 : user.failed_attempts
