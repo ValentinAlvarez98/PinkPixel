@@ -1,0 +1,45 @@
+{
+  "version": 3,
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/node_modules_next_dist_1hnfqdv._.js",
+        "server/edge/chunks/[root-of-the-server]__1zbig41._.js",
+        "server/edge/chunks/turbopack-node_modules_next_dist_esm_build_templates_edge-wrapper_1ciehhm.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "entrypoint": "server/edge/chunks/turbopack-node_modules_next_dist_esm_build_templates_edge-wrapper_1ciehhm.js",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!api|_next\\/static|_next\\/image|favicon.ico|icon.png|apple-icon.png|assets).*))(\\.json|\\.rsc|\\.segments\\/.+\\.segment\\.rsc)?[\\/#\\?]?$",
+          "missing": [
+            {
+              "type": "header",
+              "key": "next-router-prefetch"
+            },
+            {
+              "type": "header",
+              "key": "purpose",
+              "value": "prefetch"
+            }
+          ],
+          "originalSource": "/((?!api|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png|assets).*)"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "5L5O+JwLPENQoMJUoVTCXmI4+mx0ODpCApOg5HZmVJw=",
+        "__NEXT_PREVIEW_MODE_ID": "6699709b17eb7c8674a42a4b7fad7e6a",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "584d6d19340848e8f99d9414861e77df380f09193b76471f5fc07e38c4341c3f",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "8b04f234c55c8a8544b5c6c8deae212d5ee7832ab93496fc8aa9e0432e90cba0"
+      }
+    }
+  },
+  "sortedMiddleware": [
+    "/"
+  ],
+  "functions": {}
+}

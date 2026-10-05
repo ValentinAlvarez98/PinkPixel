@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+Host: https://pinkpixel.uy
+Sitemap: https://pinkpixel.uy/sitemap.xml
