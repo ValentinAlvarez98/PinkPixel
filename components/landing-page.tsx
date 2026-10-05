@@ -89,7 +89,12 @@ export function LandingPage({ products }: { products: Product[] }) {
             <>
                   <a className="skip-link" href="#contenido">Saltar al contenido</a>
 
-                  <div className="ticker" aria-hidden="true"><div><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b></div></div>
+                  <div className="ticker" aria-hidden="true">
+                        <div className="ticker-track">
+                              <div className="ticker-group"><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b></div>
+                              <div className="ticker-group"><span>papelería para celebrar</span><b>✿</b><span>hecho a medida</span><b>✿</b><span>pedidos en Uruguay</span><b>✿</b></div>
+                        </div>
+                  </div>
 
                   <header className="site-header">
                         <nav className="desktop-nav nav-left" aria-label="Navegación principal"><a href="#trabajos">Trabajos</a><a href="#productos">Productos</a></nav>
@@ -104,7 +109,6 @@ export function LandingPage({ products }: { products: Product[] }) {
 
                   <main id="contenido">
                         <section className="hero" id="inicio" aria-labelledby="hero-title">
-                              <div className="hero-doodle hero-doodle-two" aria-hidden="true">✦</div>
                               <div className="hero-copy">
                                     <p className="kicker"><span>Pink Pixel</span> · Uruguay</p>
                                     <h1 id="hero-title">Tu fiesta.<br /><em>Más tuya</em><br />que nunca.</h1>
@@ -159,7 +163,20 @@ export function LandingPage({ products }: { products: Product[] }) {
                         </section>
                   </main>
 
-                  <footer className="site-footer"><div className="footer-brand"><Image src="/assets/pinkpixel-logo.png" alt="Pink Pixel" width={4376} height={1261} /><p>Papelería creativa para celebrar a tu manera.</p></div><nav aria-label="Enlaces del pie"><a href="#trabajos">Trabajos</a><a href="#productos">Productos</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a></nav><div className="footer-social"><a href="https://www.instagram.com/pinkpixel.uy" target="_blank" rel="noopener noreferrer">Instagram ↗</a><a href="https://www.tiktok.com/@pink.pixel.uy" target="_blank" rel="noopener noreferrer">TikTok ↗</a><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div><small>© {new Date().getFullYear()} Pink Pixel · Uruguay</small></footer>
+                  <footer className="site-footer">
+                        <div className="footer-brand">
+                              <Image src="/assets/pinkpixel-logo.png" alt="Pink Pixel" width={4376} height={1261} />
+                              <p className="footer-eyebrow">Celebraciones con nombre propio</p>
+                              <h2>La idea es tuya.<br /><em>El detalle, también.</em></h2>
+                              <p className="footer-description">Papelería creativa hecha a medida para que tu fiesta se sienta tan única como la imaginaste.</p>
+                              <a className="button button-ink footer-cta" href={whatsappUrl("Hola Pink Pixel, quiero contarte una idea para mi fiesta.")} target="_blank" rel="noopener noreferrer">Contame tu idea <span aria-hidden>↗</span></a>
+                        </div>
+                        <div className="footer-links">
+                              <nav className="footer-column" aria-label="Enlaces del pie"><p>Explorá</p><a href="#trabajos">Nuestro trabajo</a><a href="#productos">El catálogo</a><a href="#sobre-mi">Sobre Pink Pixel</a><a href="#contacto">Contacto</a></nav>
+                              <div className="footer-column"><p>Encontranos</p><a href="https://www.instagram.com/pinkpixel.uy" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden>↗</span></a><a href="https://www.tiktok.com/@pink.pixel.uy" target="_blank" rel="noopener noreferrer">TikTok <span aria-hidden>↗</span></a><a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden>↗</span></a><a href="mailto:pinkpixeluy@gmail.com">Email <span aria-hidden>↗</span></a></div>
+                        </div>
+                        <div className="footer-bottom"><small>© {new Date().getFullYear()} Pink Pixel · Uruguay</small><span>Hecho con paciencia, papel y un poquito de magia.</span><a href="#inicio">Volver arriba <span aria-hidden>↑</span></a></div>
+                  </footer>
 
                   <a className="whatsapp-fab" href={whatsappUrl("Hola Pink Pixel, quiero hacer una consulta.")} target="_blank" rel="noopener noreferrer" aria-label="Consultar por WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3A12.8 12.8 0 0 0 5.11 22.5L3 29l6.7-2.02A12.97 12.97 0 1 0 16.02 3Zm0 23.58c-1.9 0-3.75-.51-5.37-1.48l-.38-.23-3.98 1.2 1.23-3.86-.25-.4A10.5 10.5 0 1 1 16.02 26.58Zm5.77-7.87c-.32-.16-1.87-.92-2.16-1.03-.29-.11-.5-.16-.71.16-.21.32-.82 1.03-1 1.24-.19.21-.37.24-.69.08-.32-.16-1.33-.49-2.54-1.57a9.5 9.5 0 0 1-1.76-2.18c-.18-.32-.02-.49.14-.65.14-.14.32-.37.47-.55.16-.18.21-.32.32-.53.1-.21.05-.4-.03-.55-.08-.16-.71-1.71-.98-2.34-.26-.62-.52-.54-.71-.55h-.61c-.21 0-.55.08-.84.4-.29.31-1.11 1.08-1.11 2.63s1.14 3.06 1.29 3.27c.16.21 2.24 3.41 5.42 4.79.76.33 1.35.52 1.81.67.76.24 1.45.21 2 .13.61-.09 1.87-.76 2.13-1.5.26-.74.26-1.37.18-1.5-.08-.14-.29-.21-.61-.37Z" /></svg></a>
 
