@@ -132,7 +132,7 @@ export function LandingPage({ products }: { products: Product[] }) {
                               </div>
                         </section>
 
-                        <div className="promise-ribbon" aria-label="Diseñado para tu fiesta"><span>pensado para vos</span><b>♥</b><span>armado a mano</span><b>♥</b><span>listo para festejar</span><b>♥</b><span>pensado para vos</span></div>
+                        <div className="promise-ribbon" aria-label="Diseñado para tu fiesta"><div className="promise-ribbon-track"><span>pensado para vos</span><b>♥</b><span>armado a mano</span><b>♥</b><span>listo para festejar</span><b>♥</b><span>pensado para vos</span></div></div>
 
                         <section className="difference section" id="diferencia" aria-labelledby="difference-title">
                               <header className="section-heading centered-heading"><p className="kicker">¿Qué tiene de especial?</p><h2 id="difference-title">No sale de una plantilla.<br /><em>Sale de tu historia.</em></h2></header>

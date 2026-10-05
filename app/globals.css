@@ -5,7 +5,7 @@
   --berry: #a92650;
   --cream: #fff6df;
   --paper: #fffaf0;
-  --butter: #f55082;
+  --butter: #ffd76d;
   --lilac: #c8afe8;
   --blue: #9ed7e8;
   --ink: #242022;
@@ -88,7 +88,9 @@ h3 { line-height: 1.12; }
 .hero-controls span { min-width: 58px; font-size: .72rem; text-align: center; }
 .hero-controls b { font-size: .94rem; }
 
-.promise-ribbon { position: relative; z-index: 4; display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 48px); width: 100%; max-width: 100%; min-height: 64px; padding: 15px 22px; overflow: hidden; background: var(--ink); color: var(--cream); font-family: var(--display); font-size: clamp(.9rem, 1.5vw, 1.28rem); letter-spacing: .01em; white-space: nowrap; }
+.promise-ribbon { position: relative; z-index: 4; width: 100%; max-width: 100%; min-height: 72px; overflow: hidden; color: var(--cream); font-family: var(--display); font-size: clamp(.9rem, 1.5vw, 1.28rem); letter-spacing: .01em; white-space: nowrap; }
+.promise-ribbon::before { content: ""; position: absolute; inset: 0; background: var(--ink); clip-path: polygon(0 14%, 100% 0, 100% 86%, 0 100%); }
+.promise-ribbon-track { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 48px); width: 100%; min-height: 72px; padding: 15px 22px; transform: rotate(-.7deg); transform-origin: center; }
 .promise-ribbon b { color: var(--pink); }
 
 /* values */
@@ -288,7 +290,8 @@ h3 { line-height: 1.12; }
   .hero-photo figcaption strong { font-size: 1rem; }
   .hero-photo figcaption span { font-size: .62rem; }
   .hero-sticker { right: 0; bottom: 0; width: 98px; }
-  .promise-ribbon { justify-content: flex-start; min-height: 55px; font-size: .82rem; }
+  .promise-ribbon { min-height: 61px; font-size: .82rem; }
+  .promise-ribbon-track { justify-content: flex-start; min-height: 61px; }
   .gallery-section::before { height: 24px; background-size: 34px 24px; }
   .gallery-card { grid-column: 1/-1; margin-top: 0 !important; }
   .gallery-card:nth-child(n) { transform: rotate(0); }
